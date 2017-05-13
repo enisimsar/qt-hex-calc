@@ -1,6 +1,6 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2017-05-13T02:14:37
+# Project created by QtCreator 2017-05-13T13:04:51
 #
 #-------------------------------------------------
 
@@ -24,8 +24,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += main.cpp\
-        button.cpp \
-    calculator.cpp
+        calculator.cpp \
+    button.cpp
 
-HEADERS  += button.h \
-    calculator.h
+HEADERS  += calculator.h \
+    button.h

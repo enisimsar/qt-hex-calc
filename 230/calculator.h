@@ -24,12 +24,12 @@ private slots:
 private:
     Button *createButton(const QString &text, const char *member);
     void abortOperation();
-    bool calculate(double rightOperand, const QString &pendingOperator);
+    bool calculate(int rightOperand, const QString &pendingOperator);
 
-    double sumInMemory;
-    double sumSoFar;
-    QString pendingAdditiveOperator;
+    int sumInMemory;
+    int sumSoFar;
     bool waitingForOperand;
+    QString pendingAdditiveOperator;
 
     QLineEdit *display;
 

@@ -5,26 +5,24 @@
 #include "button.h"
 #include "calculator.h"
 
-Calculator::Calculator(QWidget *parent)
-    : QWidget(parent)
+Calculator::Calculator(QWidget *parent): QWidget(parent)
 {
-    sumInMemory = 0.0;
-    sumSoFar = 0.0;
+    sumInMemory = 0;
+    sumSoFar = 0;
     waitingForOperand = true;
 
     display = new QLineEdit("0");
     display->setReadOnly(true);
     display->setAlignment(Qt::AlignRight);
-    display->setMaxLength(15);
 
     for (int i = 0; i < NumDigitButtons; ++i) {
-        digitButtons[i] = createButton(QString::number(i), SLOT(digitClicked()));
+        digitButtons[i] = createButton(QString::number(static_cast<unsigned char>(i), 16).toUpper(), SLOT(digitClicked()));
     }
 
     Button *plusButton = createButton(tr("+"), SLOT(additiveOperatorClicked()));
     Button *minusButton = createButton(tr("-"), SLOT(additiveOperatorClicked()));
     Button *equalButton = createButton(tr("="), SLOT(equalClicked()));
-    Button *clearButton = createButton(tr("Clear"), SLOT(clear()));
+    Button *clearButton = createButton(tr("CLR"), SLOT(clear()));
 
     QHBoxLayout *firstRow = new QHBoxLayout;
     firstRow->addWidget(plusButton);
@@ -72,7 +70,7 @@ void Calculator::digitClicked()
 {
     Button *clickedButton = qobject_cast<Button *>(sender());
     int digitValue = clickedButton->text().toInt();
-    if (display->text() == "0" && digitValue == 0.0)
+    if (display->text() == "0" && digitValue == 0)
         return;
 
     if (waitingForOperand) {
@@ -86,7 +84,7 @@ void Calculator::additiveOperatorClicked()
 {
     Button *clickedButton = qobject_cast<Button *>(sender());
     QString clickedOperator = clickedButton->text();
-    double operand = display->text().toDouble();
+    int operand = display->text().toInt();
 
     if (!pendingAdditiveOperator.isEmpty()) {
         if (!calculate(operand, pendingAdditiveOperator)) {
@@ -104,7 +102,7 @@ void Calculator::additiveOperatorClicked()
 
 void Calculator::equalClicked()
 {
-    double operand = display->text().toDouble();
+    int operand = display->text().toInt();
 
     if (!pendingAdditiveOperator.isEmpty()) {
         if (!calculate(operand, pendingAdditiveOperator)) {
@@ -117,17 +115,20 @@ void Calculator::equalClicked()
     }
 
     display->setText(QString::number(sumSoFar));
-    sumSoFar = 0.0;
+    sumSoFar = 0;
     waitingForOperand = true;
 }
 
 void Calculator::clear()
 {
-    /*if (waitingForOperand)
+    /*FOR CLEAR
+    if (waitingForOperand)
         return;*/
 
-    sumSoFar = 0.0;
+    /*FOR CLEAR ALL*/
+    sumSoFar = 0;
     pendingAdditiveOperator.clear();
+
     display->setText("0");
     waitingForOperand = true;
 }
@@ -142,10 +143,10 @@ Button *Calculator::createButton(const QString &text, const char *member)
 void Calculator::abortOperation()
 {
     clear();
-    display->setText(tr("####"));
+    display->setText(tr("ERROR"));
 }
 
-bool Calculator::calculate(double rightOperand, const QString &pendingOperator)
+bool Calculator::calculate(int rightOperand, const QString &pendingOperator)
 {
     if (pendingOperator == tr("+")) {
         sumSoFar += rightOperand;
