@@ -21,9 +21,22 @@ Calculator::Calculator(QWidget *parent): QWidget(parent)
     display->setReadOnly(true);
     display->setAlignment(Qt::AlignRight);
 
-    for (int i = 0; i < NumDigitButtons; ++i) {
-        digitButtons[i] = createButton(QString::number(static_cast<unsigned char>(i), 16).toUpper(), SLOT(digitClicked()));
-    }
+    digitButtons[0] = createButton(tr("0"), SLOT(digitClicked()));
+    digitButtons[1] = createButton(tr("1"), SLOT(digitClicked()));
+    digitButtons[2] = createButton(tr("2"), SLOT(digitClicked()));
+    digitButtons[3] = createButton(tr("3"), SLOT(digitClicked()));
+    digitButtons[4] = createButton(tr("4"), SLOT(digitClicked()));
+    digitButtons[5] = createButton(tr("5"), SLOT(digitClicked()));
+    digitButtons[6] = createButton(tr("6"), SLOT(digitClicked()));
+    digitButtons[7] = createButton(tr("7"), SLOT(digitClicked()));
+    digitButtons[8] = createButton(tr("8"), SLOT(digitClicked()));
+    digitButtons[9] = createButton(tr("9"), SLOT(digitClicked()));
+    digitButtons[10] = createButton(tr("A"), SLOT(digitClicked()));
+    digitButtons[11] = createButton(tr("B"), SLOT(digitClicked()));
+    digitButtons[12] = createButton(tr("C"), SLOT(digitClicked()));
+    digitButtons[13] = createButton(tr("D"), SLOT(digitClicked()));
+    digitButtons[14] = createButton(tr("E"), SLOT(digitClicked()));
+    digitButtons[15] = createButton(tr("F"), SLOT(digitClicked()));
 
     Button *plusButton = createButton(tr("+"), SLOT(additiveOperatorClicked()));
     Button *minusButton = createButton(tr("-"), SLOT(additiveOperatorClicked()));
@@ -161,11 +174,9 @@ bool Calculator::calculate(string rightOperand, const QString &pendingOperator)
     stringstream ss;
     ss << hex << sumSoFar;
     ss >> operandLong1;
-    operandLong1 = static_cast<long>(operandLong1);
     stringstream sss;
     sss << hex << rightOperand;
     sss >> operandLong2;
-    operandLong2 = static_cast<long>(operandLong2);
 
     if (pendingOperator == tr("+")) {
         result = operandLong1 + operandLong2;
