@@ -21,15 +21,9 @@ Calculator::Calculator(QWidget *parent): QWidget(parent)
     display->setReadOnly(true);
     display->setAlignment(Qt::AlignRight);
 
-    for(int i = 0; i <= 9; ++i) {
-        digitButtons[i] = createButton(QString::number(i), SLOT(digitClicked()));
+    for(int i = 0; i <= 15; ++i) {
+        digitButtons[i] = createButton(QString::number(i, 16).toUpper(), SLOT(digitClicked()));
     }
-    digitButtons[10] = createButton(tr("A"), SLOT(digitClicked()));
-    digitButtons[11] = createButton(tr("B"), SLOT(digitClicked()));
-    digitButtons[12] = createButton(tr("C"), SLOT(digitClicked()));
-    digitButtons[13] = createButton(tr("D"), SLOT(digitClicked()));
-    digitButtons[14] = createButton(tr("E"), SLOT(digitClicked()));
-    digitButtons[15] = createButton(tr("F"), SLOT(digitClicked()));
 
     Button *plusButton = createButton(tr("+"), SLOT(additiveOperatorClicked()));
     Button *minusButton = createButton(tr("-"), SLOT(additiveOperatorClicked()));
