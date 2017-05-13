@@ -21,8 +21,8 @@ Calculator::Calculator(QWidget *parent): QWidget(parent)
     display->setReadOnly(true);
     display->setAlignment(Qt::AlignRight);
 
-    for(int i = 0; i <= 15; ++i) {
-        digitButtons[i] = createButton(QString::number(i, 16).toUpper(), SLOT(digitClicked()));
+    for(int i = 0; i < NumDigitButtons; ++i) {
+        digitButtons[i] = createButton(QString::number(i, NumDigitButtons).toUpper(), SLOT(digitClicked()));
     }
 
     Button *plusButton = createButton(tr("+"), SLOT(additiveOperatorClicked()));
