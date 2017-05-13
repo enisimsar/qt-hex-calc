@@ -1,14 +1,19 @@
 #include <QtWidgets>
 
 #include <cmath>
+#include <iostream>
+#include <string>
+#include <sstream>
 
 #include "button.h"
 #include "calculator.h"
 
+using namespace std;
+
 Calculator::Calculator(QWidget *parent): QWidget(parent)
 {
-    sumInMemory = 0;
-    sumSoFar = 0;
+    sumInMemory = "0";
+    sumSoFar = "0";
     waitingForOperand = true;
 
     display = new QLineEdit("0");
@@ -69,29 +74,30 @@ Calculator::Calculator(QWidget *parent): QWidget(parent)
 void Calculator::digitClicked()
 {
     Button *clickedButton = qobject_cast<Button *>(sender());
-    int digitValue = clickedButton->text().toInt();
-    if (display->text() == "0" && digitValue == 0)
+    string digitValue = clickedButton->text().toUtf8().constData();
+    if (display->text() == "0" && digitValue == "0")
         return;
 
     if (waitingForOperand) {
         display->clear();
         waitingForOperand = false;
     }
-    display->setText(display->text() + QString::number(digitValue));
+    display->setText(display->text() + QString::fromStdString(digitValue));
 }
 
 void Calculator::additiveOperatorClicked()
 {
     Button *clickedButton = qobject_cast<Button *>(sender());
     QString clickedOperator = clickedButton->text();
-    int operand = display->text().toInt();
+
+    string operand = display->text().toUtf8().constData();
 
     if (!pendingAdditiveOperator.isEmpty()) {
         if (!calculate(operand, pendingAdditiveOperator)) {
             abortOperation();
             return;
         }
-        display->setText(QString::number(sumSoFar));
+        display->setText(QString::fromStdString(sumSoFar));
     } else {
         sumSoFar = operand;
     }
@@ -102,7 +108,7 @@ void Calculator::additiveOperatorClicked()
 
 void Calculator::equalClicked()
 {
-    int operand = display->text().toInt();
+    string operand = display->text().toUtf8().constData();
 
     if (!pendingAdditiveOperator.isEmpty()) {
         if (!calculate(operand, pendingAdditiveOperator)) {
@@ -114,8 +120,8 @@ void Calculator::equalClicked()
         sumSoFar = operand;
     }
 
-    display->setText(QString::number(sumSoFar));
-    sumSoFar = 0;
+    display->setText(QString::fromStdString(sumSoFar));
+    sumSoFar = "0";
     waitingForOperand = true;
 }
 
@@ -126,7 +132,7 @@ void Calculator::clear()
         return;*/
 
     /*FOR CLEAR ALL*/
-    sumSoFar = 0;
+    sumSoFar = "0";
     pendingAdditiveOperator.clear();
 
     display->setText("0");
@@ -146,12 +152,32 @@ void Calculator::abortOperation()
     display->setText(tr("ERROR"));
 }
 
-bool Calculator::calculate(int rightOperand, const QString &pendingOperator)
+bool Calculator::calculate(string rightOperand, const QString &pendingOperator)
 {
+    long operandLong1;
+    long operandLong2;
+    long result;
+    stringstream ss;
+    ss << hex << sumSoFar;
+    ss >> operandLong1;
+    operandLong1 = static_cast<long>(operandLong1);
+    stringstream sss;
+    sss << hex << rightOperand;
+    sss >> operandLong2;
+    operandLong2 = static_cast<long>(operandLong2);
+    cout << operandLong1 << endl;
+    cout << rightOperand << endl;
+    cout << operandLong2 << endl;
+
     if (pendingOperator == tr("+")) {
-        sumSoFar += rightOperand;
+        result = static_cast<int>(operandLong1) + static_cast<int>(operandLong2);
     } else if (pendingOperator == tr("-")) {
-        sumSoFar -= rightOperand;
+        result = static_cast<int>(operandLong1) - static_cast<int>(operandLong2);
     }
+
+    stringstream ssss;
+    ssss << hex << result;
+    sumSoFar =  ssss.str();
+    cout << sumSoFar;
     return true;
 }

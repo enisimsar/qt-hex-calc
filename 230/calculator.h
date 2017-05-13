@@ -2,6 +2,8 @@
 #define CALCULATOR_H
 
 #include <QWidget>
+#include <iostream>
+using namespace std;
 
 QT_BEGIN_NAMESPACE
 class QLineEdit;
@@ -24,10 +26,10 @@ private slots:
 private:
     Button *createButton(const QString &text, const char *member);
     void abortOperation();
-    bool calculate(int rightOperand, const QString &pendingOperator);
+    bool calculate(string rightOperand, const QString &pendingOperator);
 
-    int sumInMemory;
-    int sumSoFar;
+    string sumInMemory;
+    string sumSoFar;
     bool waitingForOperand;
     QString pendingAdditiveOperator;
 
