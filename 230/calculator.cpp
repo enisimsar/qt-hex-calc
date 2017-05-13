@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <algorithm>
 
 #include "button.h"
 #include "calculator.h"
@@ -165,19 +166,16 @@ bool Calculator::calculate(string rightOperand, const QString &pendingOperator)
     sss << hex << rightOperand;
     sss >> operandLong2;
     operandLong2 = static_cast<long>(operandLong2);
-    cout << operandLong1 << endl;
-    cout << rightOperand << endl;
-    cout << operandLong2 << endl;
 
     if (pendingOperator == tr("+")) {
         result = static_cast<int>(operandLong1) + static_cast<int>(operandLong2);
-    } else if (pendingOperator == tr("-")) {
+    } else {
         result = static_cast<int>(operandLong1) - static_cast<int>(operandLong2);
     }
 
     stringstream ssss;
     ssss << hex << result;
     sumSoFar =  ssss.str();
-    cout << sumSoFar;
+    transform(sumSoFar.begin(), sumSoFar.end(), sumSoFar.begin(),(int (*)(int))toupper);
     return true;
 }
