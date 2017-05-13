@@ -168,9 +168,9 @@ bool Calculator::calculate(string rightOperand, const QString &pendingOperator)
     operandLong2 = static_cast<long>(operandLong2);
 
     if (pendingOperator == tr("+")) {
-        result = static_cast<int>(operandLong1) + static_cast<int>(operandLong2);
+        result = operandLong1 + operandLong2;
     } else {
-        result = static_cast<int>(operandLong1) - static_cast<int>(operandLong2);
+        result = operandLong1 - operandLong2;
     }
 
     stringstream ssss;
