@@ -155,7 +155,27 @@ void Calculator::abortOperation()
 
 bool Calculator::calculate(string rightOperand, const QString &pendingOperator)
 {
-    stringstream ss;
+    long operandLong2;
+    string result;
+    const char * r;
+
+    const char * rO = rightOperand.c_str();
+    const char * sSF = sumSoFar.c_str();
+
+    operandLong1 = strtol(sSF, NULL, 16);
+    operandLong2 = strtol(rO, NULL, 16);
+    cout << operandLong1 << " " << operandLong2 << endl;
+
+    if (pendingOperator == tr("+")) {
+        result = to_string(operandLong1+operandLong2);
+        r = result.c_str();
+        sumSoFar = to_string(strtol(r, NULL, 10));
+    } else {
+        result = to_string(operandLong1-operandLong2);
+        r = result.c_str();
+        sumSoFar = to_string(strtol(r, NULL, 10));
+    }
+    /*stringstream ss;
     ss << hex << sumSoFar;
     long operandLong1;
     ss >> operandLong1;
@@ -174,6 +194,6 @@ bool Calculator::calculate(string rightOperand, const QString &pendingOperator)
     stringstream ssss;
     ssss << hex << result;
     ssss >> sumSoFar;
-    transform(sumSoFar.begin(), sumSoFar.end(), sumSoFar.begin(), ::toupper);
+    transform(sumSoFar.begin(), sumSoFar.end(), sumSoFar.begin(), ::toupper);*/
     return true;
 }
