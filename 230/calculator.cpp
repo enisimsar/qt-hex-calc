@@ -156,7 +156,7 @@ void Calculator::abortOperation()
 bool Calculator::calculate(string rightOperand, const QString &pendingOperator)
 {
 
-    long result;
+    /*long result;
     long operandLong1 = strtol(sumSoFar.c_str(), NULL, 16);
     long operandLong2 = strtol(rightOperand.c_str(), NULL, 16);
 
@@ -175,9 +175,9 @@ bool Calculator::calculate(string rightOperand, const QString &pendingOperator)
     stringstream ssss;
     ssss << hex << result;
     sumSoFar += ssss.str();
-    transform(sumSoFar.begin(), sumSoFar.end(), sumSoFar.begin(), ::toupper);
+    transform(sumSoFar.begin(), sumSoFar.end(), sumSoFar.begin(), ::toupper);*/
 
-    /*stringstream ss;
+    stringstream ss;
     ss << hex << sumSoFar;
     long operandLong1;
     ss >> operandLong1;
@@ -193,9 +193,16 @@ bool Calculator::calculate(string rightOperand, const QString &pendingOperator)
         result = operandLong1 - operandLong2;
     }
 
+    if (result < 0) {
+        sumSoFar = "-";
+    }
+    else {
+        sumSoFar = "";
+    }
+
     stringstream ssss;
-    ssss << hex << result;
-    ssss >> sumSoFar;
-    transform(sumSoFar.begin(), sumSoFar.end(), sumSoFar.begin(), ::toupper);*/
+    ssss << hex << abs(result);
+    sumSoFar += ssss.str();
+    transform(sumSoFar.begin(), sumSoFar.end(), sumSoFar.begin(), ::toupper);
     return true;
 }
